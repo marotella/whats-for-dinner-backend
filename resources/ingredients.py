@@ -38,3 +38,12 @@ def create_ingredient():
     ), 201
 
 #SHOW ROUTE
+@ingredients.route('/ingredients/<id>', methods=["GET"])
+def get_one_ingredient(id):
+    ingredient = models.Ingredient.get_by_id(id)
+    print(ingredient)
+    return jsonify(
+        data=model_to_dict(ingredient),
+        message="Successfully showing one ingredient by id!",
+        status=200
+    ), 200
