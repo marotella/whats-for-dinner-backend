@@ -6,8 +6,17 @@ ingredients = Blueprint('ingredients', 'ingredient')
 
 
 #INDEX Route
-
-
+@ingredients.route('/ingredients', methods =["GET"])
+def ingredients_index():
+    result = models.Ingredient.select()
+    print("Result of index request")
+    print(result)
+    ingredient_ditcs = [model_to_dict(ingredient)for ingredient in result]
+    return jsonify({
+        'data': ingredient_ditcs,
+        'message': f"Successfully found {len(ingredient_ditcs)} ingredients!", 
+        'status': 200
+    }), 200
 #DELETE Route
 
 

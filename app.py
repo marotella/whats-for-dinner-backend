@@ -20,7 +20,7 @@ def search_by_ingredients():
     return jsonify(response.json())
 
 @app.route('/')
-def index():
+def home():
     return 'hi'
 
 # Run the app when the program starts!
