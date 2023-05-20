@@ -30,7 +30,16 @@ def delete_ingredient(id):
     ), 200
 
 #UPDATE Route
-
+@ingredients.route('/ingredients/<id>', methods=["PUT"])
+def update_ingredient(id):
+    payload= request.get_json()
+    print(payload)
+    models.Ingredient.update(**payload).where(models.Ingredient.id == id).execute()
+    return jsonify(
+        data = model_to_dict(models.Ingredient.get_by_id(id)),
+        message = "Updated ingredient successfully!",
+        status = 200
+    ), 200
 
 #CREATE Route
 @ingredients.route('/ingredients', methods=["POST"])
