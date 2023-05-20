@@ -18,7 +18,16 @@ def ingredients_index():
         'status': 200
     }), 200
 #DELETE Route
-
+@ingredients.route('/ingredients/<id>', methods = ["DELETE"])
+def delete_ingredient(id):
+    delete_query = models.Ingredient.delete().where(models.Ingredient.id == id)
+    num_rows_deleted = delete_query.execute()
+    print(num_rows_deleted)
+    return jsonify(
+        data={},
+        message=f"Successfully deleted {num_rows_deleted} dog with id of {id}.",
+        status = 200
+    ), 200
 
 #UPDATE Route
 
