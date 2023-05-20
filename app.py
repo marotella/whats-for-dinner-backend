@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
 import models
 import requests
+from resources.ingredients import ingredients
 DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
+app.register_blueprint(ingredients, url_prefix='/api')
 
 @app.route('/ingredients/api/search', methods=['POST'])
 def search_by_ingredients():
