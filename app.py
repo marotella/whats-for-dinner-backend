@@ -2,11 +2,18 @@ from flask import Flask, jsonify, request
 import models
 import requests
 from resources.ingredients import ingredients
+from resources.users import users
+from flask_login import LoginManager
 DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
 app.register_blueprint(ingredients, url_prefix='/api')
+app.register_blueprint(users, url_prefix='/api')
+app.secret_key = "loukeysmashlou"
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 @app.route('/ingredients/api/search', methods=['POST'])
 def search_by_ingredients():
