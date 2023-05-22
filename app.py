@@ -4,10 +4,15 @@ import requests
 from resources.ingredients import ingredients
 from resources.users import users
 from flask_login import LoginManager
+from flask_cors import CORS
+
 DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
+CORS(app)
+CORS(ingredients, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(ingredients, url_prefix='/api')
 app.register_blueprint(users, url_prefix='/api')
 app.secret_key = "loukeysmashlou"

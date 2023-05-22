@@ -4,7 +4,6 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from playhouse.shortcuts import model_to_dict
 from flask_login import login_user, logout_user
 from flask_login import LoginManager
-
 users = Blueprint('users', 'users')
 
 #REGISTER ROUTE
