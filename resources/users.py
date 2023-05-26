@@ -2,9 +2,10 @@ import models
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash, check_password_hash
 from playhouse.shortcuts import model_to_dict
-from flask_login import login_user, logout_user
-from flask_login import LoginManager
+from flask_login import login_user, logout_user, current_user, login_required
+from models import User  
 users = Blueprint('users', 'users')
+
 
 #REGISTER ROUTE
 @users.route("/users/register", methods=["POST"])
@@ -18,8 +19,8 @@ def register_user():
         return jsonify(
             data={},
             message = "A user with that email already exists",
-            status=401
-        ), 401
+            status=409
+        ), 409
     except models.DoesNotExist:
         pw_hash = generate_password_hash(payload['password'])
         created_user = models.User.create(
@@ -28,8 +29,7 @@ def register_user():
             password=pw_hash
         )
         login_user(created_user, login_user)
-        created_user_dict=model_to_dict
-        (created_user)
+        created_user_dict=model_to_dict(created_user)
         print(created_user_dict)
         print(type(created_user_dict['password']))
         created_user_dict.pop('password')
@@ -81,6 +81,7 @@ def login():
 
 #LOGOUT ROUTE
 @users.route("/users/logout", methods=['GET'])
+@login_required
 def logout():
     logout_user()
     return jsonify(
@@ -88,3 +89,6 @@ def logout():
         message="Successfully logged out",
         status=200
     ), 200
+    
+
+    

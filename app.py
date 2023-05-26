@@ -3,7 +3,7 @@ import models
 import requests
 from resources.ingredients import ingredients
 from resources.users import users
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required
 from flask_cors import CORS
 
 DEBUG = True
@@ -19,6 +19,9 @@ app.secret_key = "loukeysmashlou"
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+def load_user(user_id):
+    return models.User.get(models.User.id == user_id)
 
 @app.route('/ingredients/api/search', methods=['POST'])
 def search_by_ingredients():
