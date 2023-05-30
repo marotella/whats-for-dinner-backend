@@ -5,6 +5,7 @@ from resources.ingredients import ingredients
 from resources.users import users
 from flask_login import LoginManager, login_required
 from flask_cors import CORS
+import os 
 
 DEBUG = True
 PORT = 8000
@@ -17,11 +18,27 @@ app.register_blueprint(ingredients, url_prefix='/api')
 app.register_blueprint(users, url_prefix='/api')
 app.secret_key = "loukeysmashlou"
 
+
+
+# Add CORS headers to allow the specified origin
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    return response
+
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-def load_user(user_id):
-    return models.User.get(models.User.id == user_id)
+@login_manager.user_loader
+def load_user(userid):
+    try:
+        return models.User.get(models.User.id == userid)
+    except:
+        return None
 
 @app.route('/ingredients/api/search', methods=['POST'])
 def search_by_ingredients():
