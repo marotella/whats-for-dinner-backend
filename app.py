@@ -50,6 +50,27 @@ def search_by_ingredients():
 
     # Return the response from the MealDB API
     return jsonify(response.json())
+@app.route("/ingredients/api/recipes/<recipe_id>", methods=["GET"] )
+def get_recipe_data(recipe_id):
+    response = requests.get(f'https://www.themealdb.com/api/json/v1/1/lookup.php?i={recipe_id}')
+    if response.status_code == 200:
+        data = response.json()
+        if data['meals'] is not None:
+            recipe = data['meals'][0]
+            recipe_data = {
+                'id': recipe['idMeal'],
+                'name': recipe['strMeal'],
+                'thumbnail': recipe['strMealThumb'],
+                'category': recipe['strCategory'],
+                'area': recipe['strArea'],
+                'instructions': recipe['strInstructions'],
+                # Add more relevant fields as needed
+            }
+            return jsonify(recipe_data)
+        else:
+            return jsonify({'error': 'Recipe not found'})
+    else:
+        return jsonify({'error': 'Failed to retrieve recipe'})                        
 
 @app.route('/')
 def home():
