@@ -7,6 +7,7 @@ ingredients = Blueprint('ingredients', 'ingredient')
 
 #INDEX Route
 @ingredients.route('/ingredients', methods =["GET"])
+@login_required
 def ingredients_index():
     result = models.Ingredient.select()
     print("Result of index request")
@@ -19,6 +20,7 @@ def ingredients_index():
     }), 200
 #DELETE Route
 @ingredients.route('/ingredients/<id>', methods = ["DELETE"])
+@login_required
 def delete_ingredient(id):
     delete_query = models.Ingredient.delete().where(models.Ingredient.id == id)
     num_rows_deleted = delete_query.execute()
@@ -31,6 +33,7 @@ def delete_ingredient(id):
 
 #UPDATE Route
 @ingredients.route('/ingredients/<id>', methods=["PUT"])
+@login_required
 def update_ingredient(id):
     payload= request.get_json()
     print(payload)
@@ -43,6 +46,7 @@ def update_ingredient(id):
 
 #CREATE Route
 @ingredients.route('/ingredients', methods=["POST"])
+@login_required
 def create_ingredient():
     payload = request.get_json()
     print(payload)
@@ -57,6 +61,7 @@ def create_ingredient():
 
 #SHOW ROUTE
 @ingredients.route('/ingredients/<id>', methods=["GET"])
+@login_required
 def get_one_ingredient(id):
     ingredient = models.Ingredient.get_by_id(id)
     print(ingredient)

@@ -2,9 +2,8 @@ import models
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash, check_password_hash
 from playhouse.shortcuts import model_to_dict
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, current_user, login_required  
 users = Blueprint('users', 'users')
-
 
 #REGISTER ROUTE
 @users.route("/users/register", methods=["POST"])
@@ -37,7 +36,6 @@ def register_user():
             message=f"Successfully registered user {created_user_dict['email']}",
             status=201
         ), 201
-
 
 #SIGNIN ROUTE
 @users.route("/users/login", methods=['POST'])
@@ -77,17 +75,13 @@ def login():
         ), 401
         
 @users.route('/users/logged_in_user', methods=['GET'])
+@login_required  
 def get_logged_in_user():
-    # https://flask-login.readthedocs.io/en/latest/#flask_login.current_user
-    # we can access the current_user because we called login_user and setup user_loader
     print(current_user)
-    print(type(current_user)) # <class 'werkzeug.local.LocalProxy'> # google it if you're interested
+    print(type(current_user))
     print(f"{current_user.username} is current_user.username in GET logged_in_user")
     user_dict = model_to_dict(current_user)
     user_dict.pop('password')
-
-    # OBSERVER -- YOU now have access to the currently logged in user
-    # anywhere you want user current_user
     return jsonify(data=user_dict), 200
 
 # we need a logout route
