@@ -49,14 +49,23 @@ def update_ingredient(id):
 @login_required
 def create_ingredient():
     payload = request.get_json()
-    print(payload)
-    new_ingredient = models.Ingredient.create(ingredient=payload['ingredient'], quantity=payload['quantity'])
-    print(new_ingredient)
+    ingredient_name = payload['ingredient']
+    quantity = payload['quantity']
+    image_url = f"https://www.themealdb.com/images/ingredients/{ingredient_name}.png"
+
+    new_ingredient = models.Ingredient.create(
+        ingredient=ingredient_name,
+        quantity=quantity,
+        image=image_url
+    )
+    
     ingredient_dict = model_to_dict(new_ingredient)
+    ingredient_dict['image_url'] = image_url
+
     return jsonify(
         data=ingredient_dict,
         message="Successfully created and added ingredient!",
-        status =201
+        status=201
     ), 201
 
 #SHOW ROUTE

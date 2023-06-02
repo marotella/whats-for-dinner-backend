@@ -9,6 +9,7 @@ DATABASE = SqliteDatabase("ingredients.sqlite")
 class Ingredient(Model):
     ingredient = CharField(unique=True)## Makes sure we are not making duplicates
     quantity = IntegerField()
+    image = CharField(null=True)
     created_at = DateTimeField(default=datetime.datetime.now)
     
     class Meta:
@@ -25,6 +26,8 @@ class User(Model, UserMixin):
 
 def initialize():
     DATABASE.connect()
+    # DATABASE.drop_tables([Ingredient], safe=True)
+
     DATABASE.create_tables([User, Ingredient], safe=True)
     print("Connected to the database, tables created.")
     DATABASE.close()

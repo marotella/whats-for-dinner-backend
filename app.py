@@ -55,7 +55,18 @@ def get_recipe_data(recipe_id):
                 'category': recipe['strCategory'],
                 'area': recipe['strArea'],
                 'instructions': recipe['strInstructions'],
+                'ingredients': [],
             }
+            for i in range(1, 21):
+                ingredient_key = f'strIngredient{i}'
+                measure_key = f'strMeasure{i}'
+                ingredient = recipe.get(ingredient_key)
+                measure = recipe.get(measure_key)
+                if ingredient and measure:
+                    recipe_data['ingredients'].append({
+                        'ingredient': ingredient,
+                        'measure': measure
+                    }) 
             return jsonify(recipe_data)
         else:
             return jsonify({'error': 'Recipe not found'})
