@@ -16,7 +16,7 @@ def register_user():
         models.User.get(models.User.email == payload['email'])
         return jsonify(
             data={},
-            message = "A user with that email already exists",
+            message = "A user with that email already exists. Please login.",
             status=401
         ), 401
     except models.DoesNotExist:
@@ -30,10 +30,10 @@ def register_user():
         created_user_dict=model_to_dict(created_user)
         print(created_user_dict)
         print(type(created_user_dict['password']))
-        created_user_dict.pop('password')
+        created_user_dict.pop('password', None)
         return jsonify(
             data=created_user_dict,
-            message=f"Successfully registered user {created_user_dict['email']}",
+            message="Successfully registered user",
             status=201
         ), 201
 
@@ -52,7 +52,7 @@ def login():
             print(f"{current_user.username} is current_user.username in POST login")
             return jsonify(
                 data=user_dict,
-                message=f"Successfully logged in {user_dict['email']}",
+                message=f"Successfully logged in",
                 status=200
             ), 200
         else:
@@ -60,7 +60,7 @@ def login():
             print("login is no good")
             return jsonify(
                 data={},
-                message="Email or password is incorrect", # let's be vague
+                message="Your email and/or password is incorrect. Please try again.", # let's be vague
                 status=401
             ), 401
 
@@ -70,7 +70,7 @@ def login():
         # respond -- bad username or password
         return jsonify(
             data={},
-            message="Email or password is incorrect", # let's be vague
+            message="An account with this information does not exist. Please review your login information and retry, or register for an account.", # let's be vague
             status=401
         ), 401
         
@@ -97,5 +97,17 @@ def logout():
         status=200
     ), 200
     
-
-    
+@users.route("/users/all", methods=["GET"])
+def get_all_users():
+    users = models.User.select()
+    all_users = []
+    for user in users:
+        user_dict = model_to_dict(user)
+        user_dict.pop('password')
+        all_users.append(user_dict)
+    print(all_users)  # Add this line to print all user accounts
+    return jsonify(
+        data=all_users,
+        message="Successfully retrieved all user accounts",
+        status=200
+    ), 200
