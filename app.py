@@ -5,9 +5,14 @@ from resources.ingredients import ingredients
 from resources.users import users
 from flask_login import LoginManager, login_required
 from flask_cors import CORS
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DEBUG = True
-PORT = 8000
+PORT = os.environ.get("PORT")
+print(os.environ.get("PORT"))
 
 app = Flask(__name__)
 CORS(app)
@@ -17,7 +22,7 @@ CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'users.login'
-app.secret_key = "loukeysmashlou"
+app.secret_key = os.environ.get("APP_SECRET")
 @login_manager.user_loader
 def load_user(userid):
     try:
@@ -37,10 +42,12 @@ def add_cors_headers(response):
     return response
 
 @app.route('/ingredients/api/search', methods=['POST'])
+@login_required
 def search_by_ingredients():
     ingredients = request.json['ingredients']
     response = requests.get(f'https://www.themealdb.com/api/json/v2/9973533/filter.php?i={",".join(ingredients)}')
     return jsonify(response.json())
+
 @app.route("/ingredients/api/recipes/<recipe_id>", methods=["GET"] )
 def get_recipe_data(recipe_id):
     response = requests.get(f'https://www.themealdb.com/api/json/v1/1/lookup.php?i={recipe_id}')
