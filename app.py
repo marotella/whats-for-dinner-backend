@@ -15,7 +15,7 @@ PORT = os.environ.get("PORT")
 print(os.environ.get("PORT"))
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
 CORS(ingredients, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
 CORS(users, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
 
@@ -55,13 +55,29 @@ def before_request():
 
 
 
+# @app.after_request
+# def add_cors_headers(response):
+#     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000, https://whats-for-dinner.herokuapp.com'
+#     response.headers['Access-Control-Allow-Credentials'] = 'true' ""
+#     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+#     return response
+
+
 @app.after_request
 def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000, https://whats-for-dinner.herokuapp.com'
-    response.headers['Access-Control-Allow-Credentials'] = 'true' ""
+    allowed_origins = ['http://localhost:3000', 'https://whats-for-dinner.herokuapp.com']
+    origin = request.headers.get('Origin')
+    
+    if origin in allowed_origins:
+        response.headers['Access-Control-Allow-Origin'] = origin
+    
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    
     return response
+
 
 @app.route('/ingredients/api/search', methods=['POST'])
 @login_required
