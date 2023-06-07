@@ -16,8 +16,8 @@ print(os.environ.get("PORT"))
 
 app = Flask(__name__)
 CORS(app)
-CORS(ingredients, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(ingredients, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
