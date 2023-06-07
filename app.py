@@ -15,6 +15,7 @@ PORT = os.environ.get("PORT")
 print(os.environ.get("PORT"))
 
 app = Flask(__name__)
+
 CORS(app, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
 CORS(ingredients, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)
 CORS(users, origins=['http://localhost:3000', "https://whats-for-dinner.herokuapp.com"], supports_credentials=True)

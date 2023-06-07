@@ -25,6 +25,7 @@ def register_user():
             username=payload['username'],
             email=payload['email'],
             password=pw_hash
+
         )
         login_user(created_user)
         created_user_dict=model_to_dict(created_user)
@@ -75,8 +76,8 @@ def login():
         ), 401
         
 @users.route('/users/logged_in_user', methods=['GET'])
-@login_required  
 def get_logged_in_user():
+
     print(current_user)
     print(type(current_user))
     print(f"{current_user.username} is current_user.username in GET logged_in_user")
@@ -88,7 +89,7 @@ def get_logged_in_user():
 
 #LOGOUT ROUTE
 @users.route("/users/logout", methods=['GET'])
-@login_required
+# @login_required
 def logout():
     logout_user()
     return jsonify(
