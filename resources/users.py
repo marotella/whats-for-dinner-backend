@@ -75,7 +75,7 @@ def login():
         ), 401
         
 @users.route('/users/logged_in_user', methods=['GET'])
-@login_required  
+# @login_required  
 def get_logged_in_user():
     print(current_user)
     print(type(current_user))
