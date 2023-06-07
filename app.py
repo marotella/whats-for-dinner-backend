@@ -49,10 +49,11 @@ def before_request():
         """Close the db connetion after each request"""
         print("closed connection to db") # optional -- to illustrate that this code runs after each request
         models.DATABASE.close()
-        response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin')
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    #     response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin')
+    # response.headers['Access-Control-Allow-Credentials'] = 'true'
+    # response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    # response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    # return response
         return response # go ahead and send response back to client
                       # (in our case this will be some JSON)
 
@@ -68,19 +69,19 @@ def before_request():
 #     return response
 
 
-# @app.after_request
-# def add_cors_headers(response):
-#     allowed_origins = ['http://localhost:3000', 'https://whats-for-dinner.herokuapp.com']
-#     origin = request.headers.get('Origin')
+@app.after_request
+def add_cors_headers(response):
+    allowed_origins = ['http://localhost:3000', 'https://whats-for-dinner.herokuapp.com']
+    origin = request.headers.get('Origin')
     
-#     if origin in allowed_origins:
-#         response.headers['Access-Control-Allow-Origin'] = origin
+    if origin in allowed_origins:
+        response.headers['Access-Control-Allow-Origin'] = origin
     
-#     response.headers['Access-Control-Allow-Credentials'] = 'true'
-#     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
     
-#     return response
+    return response
 
 
 @app.route('/ingredients/api/search', methods=['POST'])
