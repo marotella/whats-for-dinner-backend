@@ -86,7 +86,6 @@ def add_cors_headers(response):
 
 
 @app.route('/ingredients/api/search', methods=['POST'])
-@login_required
 def search_by_ingredients():
     ingredients = request.json['ingredients']
     response = requests.get(f'https://www.themealdb.com/api/json/v2/9973533/filter.php?i={",".join(ingredients)}')
