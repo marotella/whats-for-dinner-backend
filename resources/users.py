@@ -87,17 +87,6 @@ def get_logged_in_user():
 
 
 
-# @users.route('/users/logged_in_user', methods=['GET'])
-# def get_logged_in_user():
-#     if current_user.is_authenticated:
-#         user_dict = model_to_dict(current_user)
-#         user_dict.pop('password')
-#         return jsonify(data=user_dict['email']), 200
-#     else:
-#         return jsonify(data=None), 200
-
-
-
 # we need a logout route
 
 #LOGOUT ROUTE

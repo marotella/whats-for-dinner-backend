@@ -34,40 +34,20 @@ def load_user(userid):
 app.register_blueprint(ingredients, url_prefix='/api')
 app.register_blueprint(users, url_prefix='/api')
 
-# we don't want to hog up the SQL connection pool
-# so we should connect to the DB before every request
-# and close the db connection after every request
 
-@app.before_request # use this decorator to cause a function to run before reqs
+@app.before_request 
 def before_request():
 
     """Connect to the db before each request"""
-    print("opened connection to db") # optional -- to illustrate that this code runs before each request -- similar to custom middleware in express.  you could also set it up for specific blueprints only.
+    print("opened connection to db") 
     models.DATABASE.connect()
 
-    @after_this_request # use this decorator to Executes a function after this request
+    @after_this_request 
     def after_request(response):
         """Close the db connetion after each request"""
-        print("closed connection to db") # optional -- to illustrate that this code runs after each request
+        print("closed connection to db") 
         models.DATABASE.close()
-    #     response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin')
-    # response.headers['Access-Control-Allow-Credentials'] = 'true'
-    # response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-    # response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-    # return response
-        return response # go ahead and send response back to client
-                      # (in our case this will be some JSON)
-
-
-
-
-# @app.after_request
-# def add_cors_headers(response):
-#     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000, https://whats-for-dinner.herokuapp.com'
-#     response.headers['Access-Control-Allow-Credentials'] = 'true' ""
-#     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-#     return response
+        return response 
 
 
 @app.after_request
