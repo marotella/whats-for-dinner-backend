@@ -20,9 +20,22 @@ The application also uses data from an external API: https://www.themealdb.com/a
 ## Installation:
 - Necessary to install: Flask, React, Tailwind, Heroku, Peewee, SQLite, CORS, Dotenv, Gunicorn
 
+## MVP Goals
+
+- A full CRUD app for ingredients.
+- User authorization in place for update, create, and delete.
+- The ability to search an API for recipes with selected ingredients.
+- The ability to register, login, and logout from an account.
+
+## Stretch Goals
+
+- One-to-many for a user's ingredients, and/or saving recipes.
+- Implementing Tailwind for CSS. - Completed
+
+
 
 ## Approach
-- Developed full CRUD operations using Flask.
+- Developed full CRUD operations using Flask and tested routes with Postman.
 - Fetched data from external API and reviewed data structure using Postman
 - Developed frontend components and connected to the backend.
 - Implemented user authorization, by using state in React.
@@ -61,8 +74,11 @@ Recipe Routes:
 
 ## User Stories
 
-This application was designed for folks who enjoy cooking, want to reduce food waste, but may not have time or energy to find new recipes. The user to can mantain a database of their kitchen ingredients. The can view, edit, and update items in their kitchen. They can then use the ingredients they have to search a database of recipes that use those ingredients. They can view the full recipe and instructions on how to make the dish as well. 
-Users have to create an account, and login to access these features.
+This application was designed for folks who enjoy cooking, want to reduce food waste, but may not have time or energy to find new recipes. 
+- The user to can mantain a database of their kitchen ingredients. The can view, edit, and update items in their kitchen. 
+- They can then use the ingredients they have to search a database of recipes that use those ingredients. 
+- They can view the full recipe and instructions on how to make the dish as well. 
+- Users have to create an account, and login to access these features.
 
 
 ## Initial Wireframe
